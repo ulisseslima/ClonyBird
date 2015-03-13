@@ -4,8 +4,9 @@ using System.Collections;
 public class CameraTracksPlayer : MonoBehaviour
 {
 	public static float _pipeDistance;
-	public int pipePoolSize;
-	public float pipeDistance;
+	public int pipePoolSize; // 10
+	public float pipeDistance; // 1
+	public float pipeXStart; // 1
 	Transform player;
 	float offsetX;
 
@@ -26,11 +27,12 @@ public class CameraTracksPlayer : MonoBehaviour
 		
 		for (int i = 1; i <= pipePoolSize; i++) {
 			GameObject pipeWall = Instantiate (Resources.Load ("Pipes")) as GameObject;
-			incrementX (pipeWall, pipeDistance * i);
-			Debug.LogFormat ("created pipe: {0} #{1} - curr x: {2}", 
-			                 pipeWall.transform.position.x, 
-			                 pipeWall.GetInstanceID (),
-			                 PipeControl.currentX);
+			incrementX (pipeWall, pipeDistance * (i + pipeXStart));
+
+//			Debug.LogFormat ("created pipe: {0} #{1} - curr x: {2}", 
+//			                 pipeWall.transform.position.x, 
+//			                 pipeWall.GetInstanceID (),
+//			                 PipeControl.currentX);
 		}
 	}
 	

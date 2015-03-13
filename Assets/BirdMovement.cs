@@ -12,6 +12,7 @@ public class BirdMovement : MonoBehaviour
 	bool dead = false;
 	int flapCount = 0;
 	float deathCooldown = .5f;
+	bool visible;
 
 	// Use this for initialization
 	void Start ()
@@ -30,7 +31,7 @@ public class BirdMovement : MonoBehaviour
 					Application.LoadLevel (Application.loadedLevel);
 				}
 			}
-		} else {
+		} else if (visible) {
 			if (Input.GetKeyDown (KeyCode.Space) || Input.GetMouseButtonDown (LEFT_BUTTON)) {
 				didFlap = true;
 			}
@@ -73,5 +74,15 @@ public class BirdMovement : MonoBehaviour
 	{
 		trigger ("Death");
 		dead = true;
+	}
+
+	void OnBecameInvisible ()
+	{
+		visible = false;
+	}
+
+	void OnBecameVisible ()
+	{
+		visible = true;
 	}
 }
