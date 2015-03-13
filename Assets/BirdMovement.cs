@@ -3,22 +3,24 @@ using System.Collections;
 
 public class BirdMovement : MonoBehaviour
 {
+	static int LEFT_BUTTON = 0;
 	public float flapSpeed = 150f; //150
 	public float forwardSpeed = 1f;
-	int LEFT_BUTTON = 0;
-	Rigidbody2D body;
 	Animator animator;
+	AudioSource audio;
+	Rigidbody2D body;
 	bool didFlap = false;
 	bool dead = false;
-	int flapCount = 0;
-	float deathCooldown = .5f;
 	bool visible;
+	float deathCooldown = .5f;
+	int flapCount = 0;
 
 	// Use this for initialization
 	void Start ()
 	{
 		body = GetComponent<Rigidbody2D> ();
 		animator = transform.GetComponentInChildren<Animator> ();
+		audio = GetComponent<AudioSource> ();
 	}
 	// called once per frame
 	void Update ()
@@ -60,7 +62,7 @@ public class BirdMovement : MonoBehaviour
 		if (didFlap) {
 			body.AddForce (Vector2.up * flapMechanics ());
 			flapCount++;
-			trigger ("DoFlap");
+			triggerFlap();
 			didFlap = false;
 		}
 
@@ -96,5 +98,10 @@ public class BirdMovement : MonoBehaviour
 		if (flapFactor < flapSpeed / 2)
 			flapFactor = flapSpeed / 2;
 		return flapFactor;
+	}
+
+	void triggerFlap() {
+		trigger ("DoFlap");
+		audio.Play ();
 	}
 }
