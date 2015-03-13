@@ -3,11 +3,11 @@ using System.Collections;
 
 public class BirdMovement : MonoBehaviour
 {
-	public float flapSpeed = 150f;
+	public float flapSpeed = 150f; //150
+	public float forwardSpeed = 1f;
 	int LEFT_BUTTON = 0;
 	Rigidbody2D body;
 	Animator animator;
-	float forwardSpeed = 1f;
 	bool didFlap = false;
 	bool dead = false;
 	int flapCount = 0;
@@ -53,10 +53,12 @@ public class BirdMovement : MonoBehaviour
 		if (dead)
 			return;
 
+		Debug.Log ("up force: " + body.velocity.y);
+
 		body.AddForce (Vector2.right * forwardSpeed);
 
 		if (didFlap) {
-			body.AddForce (Vector2.up * flapSpeed);
+			body.AddForce (Vector2.up * flapMechanics ());
 			flapCount++;
 			trigger ("DoFlap");
 			didFlap = false;
@@ -84,5 +86,15 @@ public class BirdMovement : MonoBehaviour
 	void OnBecameVisible ()
 	{
 		visible = true;
+	}
+
+	float flapMechanics ()
+	{
+		float flapFactor = body.velocity.y < 0 ? flapSpeed : flapSpeed / 2;
+		if (flapFactor > flapSpeed)
+			flapFactor = flapSpeed;
+		if (flapFactor < flapSpeed / 2)
+			flapFactor = flapSpeed / 2;
+		return flapFactor;
 	}
 }
